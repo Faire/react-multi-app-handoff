@@ -15,14 +15,13 @@ app.get("*", (req, res) => {
   if (rscId) {
     switch (rscId) {
       case "2":
-        res.send({
+        return res.send({
           appId: APP2_BUILD_ID,
-          files: ["main.js"],
+          files: ["public/main_456.js"],
         });
       default:
-        res.send([]);
+        return res.send([]);
     }
-    return;
   }
 
   res.sendFile("public/index.html", { root: path.join(__dirname, "..") });

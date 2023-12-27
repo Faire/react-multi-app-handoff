@@ -1,19 +1,19 @@
-function main_456() {
+function main_123() {
   const { useState } = React;
 
-  function App2() {
+  function App1() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const prefetchApp1Payload = async () => {
+    const prefetchApp2Payload = async () => {
       try {
         setLoading(true);
-        const res = await fetch("/app1?_rsc=1");
+        const res = await fetch("/app2?_rsc=2");
         const payload = await res.json();
         payload?.files?.forEach((src) => {
           const script = document.createElement("script");
           script.type = "text/babel";
-          script.src = `${payload?.appId}/public/${src}`;
+          script.src = `http://localhost:4000/${payload?.appId}/${src}`;
           document.body.appendChild(script);
         });
         setData(payload);
@@ -34,17 +34,17 @@ function main_456() {
 
     return (
       <>
-        <h1>Hello from App 2</h1>
-        <button onClick={prefetchApp1Payload} disabled={loading}>
-          Prefetch App 1 Payload
+        <h1>Hello from App 1</h1>
+        <button onClick={prefetchApp2Payload} disabled={loading}>
+          Prefetch App 2 Payload
         </button>
         {loading ? <p>Loading...</p> : null}
-        {data ? <button onClick={goToApp2}>Go to App 1</button> : null}
+        {data ? <button onClick={goToApp2}>Go to App 2</button> : null}
       </>
     );
   }
 
   const container = document.getElementById("root");
   const root = ReactDOM.createRoot(container);
-  root.render(<App2 />);
+  root.render(<App1 />);
 }
