@@ -4,6 +4,7 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
+    "build:client": "node scripts/build.js",
     "dev": "nodemon src/server.js",
     "start": "node src/server.js"
   },

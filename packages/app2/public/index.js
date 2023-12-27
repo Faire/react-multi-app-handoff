@@ -1,12 +1,10 @@
-document.addEventListener("APP_LOAD_123", () => {
-  console.log("Loading app 1 from index.js");
+window.addEventListener("SWITCH_TO_APP_123", () => {
   main_123();
 });
-document.addEventListener("APP_LOAD_456", () => {
-  console.log("Loading app 2 from index.js");
+window.addEventListener("SWITCH_TO_APP_456", () => {
   main_456();
 });
 
-window.setTimeout(() => {
+document.addEventListener("DOMContentLoaded", () => {
   main_456();
-}, 10);
+});

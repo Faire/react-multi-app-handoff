@@ -17,7 +17,7 @@ app.get("*", (req, res) => {
       case "2":
         return res.send({
           appId: APP2_BUILD_ID,
-          files: ["public/main_456.js"],
+          files: ["public/dist/main.js"],
         });
       default:
         return res.send([]);

@@ -8,10 +8,7 @@ const port = 4001;
 const APP1_BUILD_ID = process.env.APP1_BUILD_ID ?? "123";
 
 app.use(express.json());
-app.use(`/${APP1_BUILD_ID}/public`, (req, res, next) => {
-  console.log("App 1 serving static files from public", req.url);
-  express.static("public")(req, res, next);
-});
+app.use(`/${APP1_BUILD_ID}/public`, express.static("public"));
 
 app.get("*", (req, res) => {
   const rscId = req.query["_rsc"];
@@ -20,7 +17,7 @@ app.get("*", (req, res) => {
       case "1":
         return res.send({
           appId: APP1_BUILD_ID,
-          files: ["public/main_123.js"],
+          files: ["public/dist/main.js"],
         });
       default:
         return res.send([]);
