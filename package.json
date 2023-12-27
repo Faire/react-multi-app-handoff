@@ -1,0 +1,20 @@
+{
+  "name": "next-multi-app-handoff",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=app1\" \"npm run dev --workspace=app2\" \"npm run dev --workspace=proxy\"",
+    "start": "concurrently \"npm run start --workspace=app1\" \"npm run start --workspace=app2\" \"npm run start --workspace=proxy\""
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "workspaces": [
+    "packages/app1",
+    "packages/app2",
+    "packages/proxy"
+  ]
+}
