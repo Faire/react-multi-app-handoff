@@ -1,20 +1,29 @@
+/**
+ * This is the actual React app.
+ * It should live in another file, but it's here to avoid using webpack.
+ */
 function App2({ appId }) {
   const { useState } = React;
 
-  const [data, setData] = useState(null);
+  // Not using RQ or SWR to keep things simple.
+  const [payload, setPayload] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const prefetchApp1Payload = async () => {
+  const prefetch = async () => {
     try {
       setLoading(true);
       const res = await fetch("/app1?_rsc=1");
-      const payload = await res.json();
-      payload?.files?.forEach((src) => {
-        const script = document.createElement("script");
-        script.src = `${payload?.appId}/${src}`;
-        document.body.appendChild(script);
+      const data = await res.json();
+      // Loads the scripts for the subsequent app (if not already loaded).
+      data?.files?.forEach((path) => {
+        const src = `${data?.appId}/${path}`;
+        if (document.querySelectorAll(`[src="${src}"]`).length === 0) {
+          const script = document.createElement("script");
+          script.src = src;
+          document.body.appendChild(script);
+        }
       });
-      setData(payload);
+      setPayload(data);
     } catch (error) {
       console.error(error);
     } finally {
@@ -22,11 +31,14 @@ function App2({ appId }) {
     }
   };
 
-  const goToApp1 = () => {
-    const nextAppId = data?.appId;
+  const navigate = () => {
+    const nextAppId = payload?.appId;
     if (nextAppId) {
+      // Dispatches an event to unmount the current app.
       window.dispatchEvent(new Event(`UNMOUNT_APP_${appId}`));
+      // Dispatches an event to mount the next app.
       window.dispatchEvent(new Event(`SWITCH_TO_APP_${nextAppId}`));
+      // Updates the URL to match the next app.
       window.history.replaceState({}, "", `/app1`);
     }
   };
@@ -34,15 +46,20 @@ function App2({ appId }) {
   return (
     <>
       <h1>Hello from App 2</h1>
-      <button onClick={prefetchApp1Payload} disabled={loading}>
+      <button onClick={prefetch} disabled={loading}>
         Prefetch App 1 Payload
       </button>
       {loading ? <p>Loading...</p> : null}
-      {data ? <button onClick={goToApp1}>Go to App 1</button> : null}
+      {payload ? <button onClick={navigate}>Go to App 1</button> : null}
     </>
   );
 }
 
+/**
+ * The actual main function.
+ * This is mostly the same for each app, except for the `CURRENT_APP_ID` and
+ * can be generated at build time.
+ */
 function main_456() {
   const CURRENT_APP_ID = "456";
 

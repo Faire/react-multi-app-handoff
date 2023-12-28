@@ -5,26 +5,27 @@ const path = require("path");
 const app = express();
 const port = 4001;
 
-const APP1_BUILD_ID = process.env.APP1_BUILD_ID ?? "123";
+const APP_BUILD_ID = process.env.APP_BUILD_ID ?? "123";
 
 app.use(express.json());
-app.use(`/${APP1_BUILD_ID}/public`, express.static("public"));
+app.use(`/${APP_BUILD_ID}/public`, express.static("public"));
 
-app.get("*", (req, res) => {
+app.get("/app1", (req, res) => {
   const rscId = req.query["_rsc"];
   if (rscId) {
     switch (rscId) {
       case "1":
         return res.send({
-          appId: APP1_BUILD_ID,
+          appId: APP_BUILD_ID,
           files: ["public/dist/main.js"],
         });
       default:
-        return res.send([]);
+        return res.send({});
     }
   }
-
-  res.sendFile("public/index.html", { root: path.join(__dirname, "..") });
+  return res.sendFile("public/index.html", {
+    root: path.join(__dirname, ".."),
+  });
 });
 
 app.listen(port, () => {
