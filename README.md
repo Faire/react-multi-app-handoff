@@ -133,7 +133,7 @@ const prefetch = async () => {
     const data = await res.json();
     data?.files?.forEach((path) => {
       const src = `${data?.appId}/${path}`;
-      if (!document.querySelectorAll(`[src="${src}"]`)) {
+      if (document.querySelectorAll(`[src="${src}"]`).length === 0) {
         const script = document.createElement("script");
         script.src = src;
         document.body.appendChild(script);
