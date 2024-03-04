@@ -1,7 +1,5 @@
 # React Multi App Handoff
 
-[Design doc](https://docs.google.com/document/d/1nYR_ZaZNaAB8GE6MZB-5fmZ3xzTgoYalEtqpXIiH8kQ/edit?usp=sharing)
-
 This is a POC that implements "switching" between React apps without reloading the document. It also simulates "RSC payload" requests to gather resources needed on the client to render the subsequent app.
 
 ![demo](./demo.gif)
